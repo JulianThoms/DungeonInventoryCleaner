@@ -10,7 +10,7 @@ export default class CheckboxCoc extends React.Component {
   }
 
   render() {
-    return <Checkbox onChange={this.onChange}>{this.props.text}</Checkbox>
+    return <Checkbox onChange={this.props.onChange}>{this.props.text}</Checkbox>
   }
 
   onChange(e) {

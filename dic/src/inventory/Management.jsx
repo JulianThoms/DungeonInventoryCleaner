@@ -10,51 +10,50 @@ export default class Management extends React.Component {
     super(props)
     this.state = {
       prettierText: '',
-      checkBoxPrice: false,
-      basePrice: 100,
     }
+  }
+  basePrice = 100
+  prettierList = []
+  checkBoxPrice = false
+
+  onCheckboxPriceAddChange = (e) => {
+    this.checkBoxPrice = !this.checkBoxPrice
+    this.fixText(this.prettierList)
   }
 
   onChangeInputText = (e) => {
-    let re = /:([A-Z]{1}[a-z]*)+:[ ](([A-Z])([a-z])*[ ]{0,1})+[1-9]/
     let list = e.currentTarget.value.split('\n')
-    let cleansedList = [];
-    for(let i = 0; i < list.length; i++) {
+    this.fixText(list)
+  }
+
+  onChangeInputPrice = (e) => {
+    this.basePrice = e.target.value
+    this.fixText(this.prettierList)
+  }
+
+  fixText = (list) => {
+    let re = /:([A-Z]{1}[a-z]*)+:[ ](([A-Z])([a-z])*[ ]{0,1})+[1-9]/
+    let cleansedList = []
+    let toBeAdded = ''
+
+    for (let i = 0; i < list.length; i++) {
       if (re.test(list[i])) {
         console.log('match found.')
-        cleansedList.push(list[i].match(re)[0])
+        toBeAdded = list[i].match(re)[0]
       }
       if (list[i] == '') {
         continue
       }
-      console.log(cleansedList)
+      console.log(toBeAdded)
       try {
-        var frontCut = cleansedList.Substring(cleansedList.IndexOf(':'))
-        let amountDoppel = 0
-        let index = 0
-        for (let c of frontCut) {
-          {
-            if (c == ':') {
-              if (amountDoppel == 2) {
-                break
-              }
-
-              amountDoppel += 1
-            }
-
-            index++
-          }
-        }
-
-        cleansedList = frontCut.Substring(0, index)
-        let level = parseInt(cleansedList[cleansedList.Length - 1].ToString())
-        let price = parseInt(this.state.basePrice)
+        let level = parseInt(toBeAdded[toBeAdded.length - 1])
+        let price = parseInt(this.basePrice)
         while (level != 1) {
           price *= 2
           level--
         }
-        if (this.state.checkBoxPrice) {
-          cleansedList += ' - ' + price + ' :coin:'
+        if (this.checkBoxPrice) {
+          toBeAdded += ' - ' + price + ' :coin:'
         }
       } catch (e) {
         continue
@@ -67,9 +66,10 @@ export default class Management extends React.Component {
       // isSkip = true
       //break
       //}
+      cleansedList.push(toBeAdded)
     }
-    
-    this.setState({ prettierText: cleansedList.join("\n") })
+    this.prettierList = cleansedList
+    this.setState({ prettierText: this.prettierList.join('\n') })
   }
 
   onChangeSearchField = (e) => {
@@ -92,12 +92,16 @@ export default class Management extends React.Component {
                 <SearchField onChange={this.onChangeSearchField} />
               </Col>
               <Col span={10}>
-                <Checkbox text="Add Price" />
+                <Checkbox
+                  onChange={this.onCheckboxPriceAddChange}
+                  text="Add Price"
+                />
                 <br />
                 <Input
                   defaultValue="100"
                   maxLength={4}
                   style={{ width: '60%', marginTop: '15px' }}
+                  onChange={this.onChangeInputPrice}
                 />
               </Col>
             </Row>
