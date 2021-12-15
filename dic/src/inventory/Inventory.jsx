@@ -32,7 +32,6 @@ export default class Inventory extends React.Component {
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Layout className="site-layout">
-          
           <Content style={{ margin: '1% 8%' }}>
             <div
               className="site-layout-background"

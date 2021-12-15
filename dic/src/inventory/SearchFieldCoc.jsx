@@ -13,7 +13,7 @@ export default class SearchFieldCoc extends React.Component {
         <Select
         mode="multiple"
         style={{ width: '95%' }}
-        placeholder="Select Items"
+        placeholder="Select Items to Remove from List"
         onChange={this.props.onChange}
         optionLabelProp="label"
       >

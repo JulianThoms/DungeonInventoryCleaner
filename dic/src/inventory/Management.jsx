@@ -104,7 +104,7 @@ export default class Management extends React.Component {
             <Divider orientation="left">Options</Divider>
             <Row>
               <Col span={14}>
-                <p>Filter List</p>
+                <p>Remove Items from Output</p>
                 <SearchField onChange={this.onChangeSearchField} />
               </Col>
               <Col span={10}>
