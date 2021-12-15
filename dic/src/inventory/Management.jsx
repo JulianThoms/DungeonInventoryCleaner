@@ -40,11 +40,10 @@ export default class Management extends React.Component {
       if (re.test(list[i])) {
         console.log('match found.')
         toBeAdded = list[i].match(re)[0]
-      }
-      if (list[i] == '') {
+      } else {
         continue
       }
-      console.log(toBeAdded)
+
       try {
         let level = parseInt(toBeAdded[toBeAdded.length - 1])
         let price = parseInt(this.basePrice)
@@ -68,8 +67,10 @@ export default class Management extends React.Component {
       //}
       cleansedList.push(toBeAdded)
     }
-    this.prettierList = cleansedList
-    this.setState({ prettierText: this.prettierList.join('\n') })
+    if (JSON.stringify(cleansedList) != JSON.stringify(this.prettierList)) {
+      this.prettierList = cleansedList
+      this.setState({ prettierText: this.prettierList.join('\n') })
+    }
   }
 
   onChangeSearchField = (e) => {
