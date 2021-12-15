@@ -40,7 +40,7 @@ export default class Management extends React.Component {
   }
 
   fixText = (list) => {
-    let re = /:([A-Z]{1}[a-z]*)+:[ ](([A-Z])([a-z])*[ ]{0,1})+[1-9]/
+    let re = /:([A-Z]*[a-z]*)+:[ ](([A-Z])([a-z])*[ ]{0,1})+[1-9]/
     let cleansedList = []
     let toBeAdded = ''
 
@@ -97,18 +97,18 @@ export default class Management extends React.Component {
       <>
         <Row gutter={16}>
           <Col className="gutter-row" span={12}>
-            <Divider>Paste API Here</Divider>
+            <Divider className="noselect">Paste API Here</Divider>
             <Row>
               <TextArea rows={6} onChange={this.onChangeInputText} />
             </Row>
-            <Divider orientation="left">Options</Divider>
+            <Divider className="noselect" orientation="left">Options</Divider>
             <Row>
               <Col span={14}>
-                <p>Remove Items from Output</p>
+                <p className="noselect">Remove Items from Output</p>
                 <SearchField onChange={this.onChangeSearchField} />
               </Col>
               <Col span={10}>
-                <Checkbox
+                <Checkbox className="noselect"
                   onChange={this.onCheckboxPriceAddChange}
                   text="Add Price"
                 />
@@ -123,7 +123,7 @@ export default class Management extends React.Component {
             </Row>
           </Col>
           <Col className="gutter-row" span={12}>
-            <Divider>Receive Prettier Inventory Here</Divider>
+            <Divider className="noselect">Receive Prettier Inventory Here</Divider>
             <TextArea value={this.state.prettierText} rows={6} />
           </Col>
         </Row>
