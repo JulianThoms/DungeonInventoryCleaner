@@ -12,8 +12,11 @@ export default class Management extends React.Component {
       prettierText: '',
     }
   }
+
   basePrice = 100
+  normalList = []
   prettierList = []
+  filterList = []
   checkBoxPrice = false
 
   onCheckboxPriceAddChange = (e) => {
@@ -22,13 +25,18 @@ export default class Management extends React.Component {
   }
 
   onChangeInputText = (e) => {
-    let list = e.currentTarget.value.split('\n')
-    this.fixText(list)
+    this.normalList = e.currentTarget.value.split('\n')
+    this.fixText(this.normalList)
   }
 
   onChangeInputPrice = (e) => {
     this.basePrice = e.target.value
     this.fixText(this.prettierList)
+  }
+
+  onChangeSearchField = (e) => {
+    this.filterList = e
+    this.fixText(this.normalList)
   }
 
   fixText = (list) => {
@@ -38,9 +46,20 @@ export default class Management extends React.Component {
 
     for (let i = 0; i < list.length; i++) {
       if (re.test(list[i])) {
-        console.log('match found.')
         toBeAdded = list[i].match(re)[0]
       } else {
+        continue
+      }
+
+      // filter
+      let skip = false
+      for (let i of this.filterList) {
+        if (toBeAdded.toLowerCase().includes(i)) {
+          skip = true
+        }
+      }
+
+      if (skip) {
         continue
       }
 
@@ -71,10 +90,6 @@ export default class Management extends React.Component {
       this.prettierList = cleansedList
       this.setState({ prettierText: this.prettierList.join('\n') })
     }
-  }
-
-  onChangeSearchField = (e) => {
-    console.log(e)
   }
 
   render() {

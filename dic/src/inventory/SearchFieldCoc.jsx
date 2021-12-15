@@ -8,17 +8,13 @@ export default class SearchFieldCoc extends React.Component {
     this.state = {}
   }
 
-  handleChange(value) {
-    console.log(`selected ${value}`);
-  }
-
   render() {
     return (
         <Select
         mode="multiple"
         style={{ width: '95%' }}
         placeholder="Select Items"
-        onChange={this.handleChange}
+        onChange={this.props.onChange}
         optionLabelProp="label"
       >
         <Option value="avalanche">Avalanche</Option>
