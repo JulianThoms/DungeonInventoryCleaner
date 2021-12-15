@@ -32,10 +32,7 @@ export default class Inventory extends React.Component {
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Layout className="site-layout">
-          <Header
-            className="site-layout-background"
-            style={{ padding: 0, height: 45 }}
-          />
+          
           <Content style={{ margin: '1% 8%' }}>
             <div
               className="site-layout-background"
