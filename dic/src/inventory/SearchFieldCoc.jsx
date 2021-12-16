@@ -11,7 +11,7 @@ export default class SearchFieldCoc extends React.Component {
   render() {
     return (
         <Select
-        defaultValue = {localStorage.getItem('filterList').split(',')}
+        defaultValue = {localStorage.getItem('filterList')==null?[]:localStorage.getItem('filterList').split(',')}
         mode="multiple"
         style={{ width: '95%' }}
         placeholder="Select Items to Remove from List"
