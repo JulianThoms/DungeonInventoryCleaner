@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "WSL Chrome",
+            "name": "crazyApp",
             "type": "chrome",
             "request": "launch",
             "url": "http://localhost:3000",
