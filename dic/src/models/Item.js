@@ -1,23 +1,25 @@
 export default class Item {
-    name
-    level
-    amount
-  
-    constructor(name, level) {
-      this.name = name
-      this.level = level
-      this.amount = 1
-    }
-  
-    CompareTo(obj) {
-      return obj.level - this.level
-    }
+  emote;
+  name;
+  level;
+  amount;
 
-    toString = function() {
-        let text =  this.name + this.level
-        if ( this.amount > 1){
-            text += " ( " +  this.amount + "x )"
-        }
-        return text;
-    }
+  constructor(emote, name, level) {
+    this.emote = emote;
+    this.name = name;
+    this.level = level;
+    this.amount = 1;
   }
+
+  CompareTo(obj) {
+    return obj.level - this.level;
+  }
+
+  toString = function () {
+    let text = ":" + this.emote + ": " + this.name + this.level;
+    if (this.amount > 1) {
+      text += " ( " + this.amount + "x )";
+    }
+    return text;
+  };
+}

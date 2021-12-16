@@ -57,20 +57,27 @@ export default class Management extends React.Component {
   };
 
   fixText = (list) => {
-    let re = /:([A-Z]*[a-z]*)+:[ ](([A-Z])([a-z])*[ ]{0,1})+[1-9]/;
+    let re = /:([^:]+):\s([^:]+)(\d).*$/;
     let cleansedList = [];
     let toBeAdded;
 
     for (let i = 0; i < list.length; i++) {
       if (re.test(list[i])) {
-        toBeAdded = this.parseItem(list[i].match(re)[0]);
+        if (isNaN(parseInt(list[i].match(re)[3].trim()))) {
+          continue;
+        }
+        toBeAdded = new Item(
+          list[i].match(re)[1].trim(),
+          list[i].match(re)[2],
+          parseInt(list[i].match(re)[3].trim())
+        );
       } else {
         continue;
       }
 
       // filter
       let skip = false;
-      if (filterList != null && filterList.length != 0) {
+      if (this.filterList != null && this.filterList.length != 0) {
         for (let i of this.filterList) {
           if (
             toBeAdded.name.toLowerCase().includes(i) &&
@@ -203,12 +210,6 @@ export default class Management extends React.Component {
     return filteredDupItems;
   };
 
-  parseItem = (lineToBeParsed) => {
-    let name = lineToBeParsed.match(/([:]*[A-Z]*[a-z]*[ ]*)*/)[0];
-    let level = lineToBeParsed.match(/[1-9]/)[0];
-    return new Item(name, level);
-  };
-
   sortItems = (items) => {
     return items.sort(function (a, b) {
       return b.level - a.level;
@@ -222,7 +223,11 @@ export default class Management extends React.Component {
           <Col className="gutter-row" xs={24} s={24} m={12} l={12} xl={12}>
             <Divider className="noselect">Paste API Here</Divider>
             <Row justify="center">
-              <TextArea rows={6} onChange={this.onChangeInputText} />
+              <TextArea
+                rows={6}
+                spellCheck={false}
+                onChange={this.onChangeInputText}
+              />
             </Row>
             <Divider className="noselect" orientation="left">
               Options
@@ -243,7 +248,7 @@ export default class Management extends React.Component {
                     text="Reduce Inventory"
                   />
                 </Row>
-                <br/>
+                <br />
                 <Row justify="center">
                   <Checkbox
                     className="noselect"
@@ -266,7 +271,11 @@ export default class Management extends React.Component {
             <Divider className="noselect">
               Receive Prettier Inventory Here
             </Divider>
-            <TextArea value={this.state.prettierText} rows={6} />
+            <TextArea
+              spellCheck={false}
+              value={this.state.prettierText}
+              rows={6}
+            />
           </Col>
         </Row>
       </>
