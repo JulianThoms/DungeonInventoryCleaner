@@ -4,19 +4,24 @@ import Checkbox from './CheckboxCoc.jsx'
 import SearchField from './SearchFieldCoc.jsx'
 
 const { TextArea } = Input
-
+let filterList = []
 export default class Management extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       prettierText: '',
     }
+    if (
+      localStorage.getItem('filterList') != '' &&
+      localStorage.getItem('filterList') != null
+    ) {
+      filterList = localStorage.getItem('filterList').split(',')
+    }
   }
 
   basePrice = 100
   normalList = []
   prettierList = []
-  filterList = []
   checkBoxPrice = false
 
   onCheckboxPriceAddChange = (e) => {
@@ -36,6 +41,7 @@ export default class Management extends React.Component {
 
   onChangeSearchField = (e) => {
     this.filterList = e
+    localStorage.setItem('filterList', e)
     this.fixText(this.normalList)
   }
 
@@ -95,24 +101,28 @@ export default class Management extends React.Component {
   render() {
     return (
       <>
-        <Row gutter={16}>
-          <Col className="gutter-row" span={12}>
+        <Row gutter={16} justify="center">
+          <Col className="gutter-row" xs={24} s={24} m={12} l={12} xl={12}>
             <Divider className="noselect">Paste API Here</Divider>
-            <Row>
+            <Row justify="center">
               <TextArea rows={6} onChange={this.onChangeInputText} />
             </Row>
-            <Divider className="noselect" orientation="left">Options</Divider>
-            <Row>
-              <Col span={14}>
+            <Divider className="noselect" orientation="left">
+              Options
+            </Divider>
+            <Row justify="center">
+              <Col xs={22} s={22} m={14} l={14} xl={14}>
                 <p className="noselect">Remove Items from Output</p>
-                <SearchField onChange={this.onChangeSearchField} />
+                <SearchField defaultValue={this.filterList} onChange={this.onChangeSearchField} />
               </Col>
-              <Col span={10}>
-                <Checkbox className="noselect"
+
+              <Col xs={10} s={10} m={10} l={10} xl={10}>
+                <br />
+                <Checkbox
+                  className="noselect"
                   onChange={this.onCheckboxPriceAddChange}
                   text="Add Price"
                 />
-                <br />
                 <Input
                   defaultValue="100"
                   maxLength={4}
@@ -122,8 +132,10 @@ export default class Management extends React.Component {
               </Col>
             </Row>
           </Col>
-          <Col className="gutter-row" span={12}>
-            <Divider className="noselect">Receive Prettier Inventory Here</Divider>
+          <Col className="gutter-row" xs={24} s={24} m={12} l={12} xl={12}>
+            <Divider className="noselect">
+              Receive Prettier Inventory Here
+            </Divider>
             <TextArea value={this.state.prettierText} rows={6} />
           </Col>
         </Row>
