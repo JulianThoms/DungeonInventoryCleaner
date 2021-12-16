@@ -60,7 +60,7 @@ export default class Management extends React.Component {
       // filter
       let skip = false
       for (let i of this.filterList) {
-        if (toBeAdded.toLowerCase().includes(i)) {
+        if (toBeAdded.toLowerCase().includes(i) && i.length > 2 && toBeAdded.length > 2) {
           skip = true
         }
       }
