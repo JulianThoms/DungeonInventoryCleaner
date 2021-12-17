@@ -57,6 +57,14 @@ export default class Management extends React.Component {
   };
 
   fixText = (list) => {
+
+    if (
+      localStorage.getItem("filterList") != "" &&
+      localStorage.getItem("filterList") != null
+    ) {
+      this.filterList = localStorage.getItem("filterList").split(",");
+    }
+
     let re = /:([^:]+):\s([^:]+)(\d).*$/;
     let cleansedList = [];
     let toBeAdded;
@@ -84,11 +92,6 @@ export default class Management extends React.Component {
             i.length > 2 &&
             toBeAdded.name.length > 2
           ) {
-            console.log("skipping because:");
-            console.log(i.length);
-            console.log(toBeAdded.name.length);
-            console.log(toBeAdded.name.toLowerCase());
-            console.log(i);
             skip = true;
           }
         }
