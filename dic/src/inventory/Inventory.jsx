@@ -1,38 +1,31 @@
-import { Layout, Menu, Breadcrumb } from 'antd'
+import { Layout, Menu, Breadcrumb } from "antd";
 import {
   DesktopOutlined,
   PieChartOutlined,
   FileOutlined,
   TeamOutlined,
   UserOutlined,
-} from '@ant-design/icons'
+} from "@ant-design/icons";
 
-import React from 'react'
+import React from "react";
 
-import Management from './Management.jsx'
+import Management from "./Management.jsx";
 
-const { Header, Content, Footer, Sider } = Layout
-const { SubMenu } = Menu
+const { Header, Content, Footer, Sider } = Layout;
+const { SubMenu } = Menu;
 
 export default class Inventory extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       collapsed: false,
-    }
+    };
   }
-
-  onCollapse = (collapsed) => {
-    console.log(collapsed)
-    this.setState({ collapsed })
-  }
-
   render() {
-    const { collapsed } = this.state
     return (
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout style={{ minHeight: "100vh" }}>
         <Layout className="site-layout">
-          <Content style={{ margin: '1% 8%' }}>
+          <Content style={{ margin: "1% 8%" }}>
             <div
               className="site-layout-background"
               style={{ padding: 24, minHeight: 360 }}
@@ -40,7 +33,7 @@ export default class Inventory extends React.Component {
               <Management />
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>
+          <Footer style={{ textAlign: "center" }}>
             <span>
               COC Simulator ©2021 Created and beautifully designed by Zoop from
               the Dungeons
@@ -49,6 +42,6 @@ export default class Inventory extends React.Component {
           </Footer>
         </Layout>
       </Layout>
-    )
+    );
   }
 }

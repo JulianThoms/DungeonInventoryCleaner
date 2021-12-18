@@ -2,10 +2,11 @@ import { Input, Row, Col, Divider, Space } from "antd";
 import React from "react";
 import Checkbox from "./CheckboxCoc.jsx";
 import SearchField from "./SearchFieldCoc.jsx";
-import Item from "../models/Item.js";
+import InventoryUser from "../models/InventoryUser";
 
 const { TextArea } = Input;
-let filterList = [];
+let inventoryUser = new InventoryUser();
+
 export default class Management extends React.Component {
   constructor(props) {
     super(props);
@@ -14,10 +15,10 @@ export default class Management extends React.Component {
       prettierTextCombined: "",
     };
     if (
-      localStorage.getItem("filterList") != "" &&
-      localStorage.getItem("filterList") != null
+      localStorage.getItem("filterList") !== "" &&
+      localStorage.getItem("filterList") !== null
     ) {
-      filterList = localStorage.getItem("filterList").split(",");
+      this.filterList = localStorage.getItem("filterList").split(",");
     }
   }
 
@@ -29,6 +30,7 @@ export default class Management extends React.Component {
   checkBoxCombineItems = false;
   cleansedListCombined = [];
   backupList = [];
+  filterList = [];
 
   onCheckboxPriceAddChange = (e) => {
     this.checkBoxPrice = !this.checkBoxPrice;
@@ -57,165 +59,27 @@ export default class Management extends React.Component {
   };
 
   fixText = (list) => {
+    inventoryUser = new InventoryUser();
 
     if (
-      localStorage.getItem("filterList") != "" &&
-      localStorage.getItem("filterList") != null
+      localStorage.getItem("filterList") !== "" &&
+      localStorage.getItem("filterList") !== null
     ) {
       this.filterList = localStorage.getItem("filterList").split(",");
     }
 
-    let re = /:([^:]+):\s([^:]+)(\d).*$/;
-    let cleansedList = [];
-    let toBeAdded;
-
-    for (let i = 0; i < list.length; i++) {
-      if (re.test(list[i])) {
-        if (isNaN(parseInt(list[i].match(re)[3].trim()))) {
-          continue;
-        }
-        toBeAdded = new Item(
-          list[i].match(re)[1].trim(),
-          list[i].match(re)[2],
-          parseInt(list[i].match(re)[3].trim())
-        );
-      } else {
-        continue;
-      }
-
-      // filter
-      let skip = false;
-      if (this.filterList != null && this.filterList.length != 0) {
-        for (let i of this.filterList) {
-          if (
-            toBeAdded.name.toLowerCase().includes(i) &&
-            i.length > 2 &&
-            toBeAdded.name.length > 2
-          ) {
-            skip = true;
-          }
-        }
-      }
-
-      if (skip) {
-        continue;
-      }
-
-      cleansedList.push(toBeAdded);
+    for (let l of list) {
+      inventoryUser.ParseItem(l);
     }
 
-    if (this.checkBoxCombineItems) {
-      cleansedList = this.combineItems(cleansedList);
-    }
-
-    cleansedList = cleansedList.map((item) => {
-      try {
-        let level = item.level;
-        let price = parseInt(this.basePrice);
-        while (level != 1) {
-          price *= 2;
-          level--;
-        }
-        if (this.checkBoxPrice) {
-          item += " - " + price + " :coin:";
-        }
-        return item;
-      } catch (e) {}
-    });
-
-    if (JSON.stringify(cleansedList) != JSON.stringify(this.prettierList)) {
-      this.prettierList = cleansedList;
-      this.setState({
-        prettierText: this.prettierList.toString().split(",").join("\n"),
-      });
-    }
-  };
-
-  combineItems = (text) => {
-    let Items = [];
-    for (let item of text) {
-      if (item == null) {
-        continue;
-      }
-
-      Items.push(item);
-    }
-
-    Items = this.sortItems(Items);
-
-    // filter duplicates to amounts
-    let filteredDupItems = [];
-
-    for (let comparableItem of Items) {
-      let amtStuff = Items.filter(
-        (item) =>
-          item.level == comparableItem.level && item.name == comparableItem.name
-      );
-      if (amtStuff.length > 1) {
-        amtStuff[0].amount = amtStuff.length;
-      }
-      if (
-        !filteredDupItems.some(
-          (e) => e.name === amtStuff[0].name && e.level === amtStuff[0].level
-        )
-      ) {
-        filteredDupItems.push(amtStuff[0]);
-      }
-    }
-
-    /* where was i going with this
-    let splitItems = [];
-    for (let singleItem of Items) {
-      let listExists = false;
-      for (let list of splitItems) {
-        if (list.some((e) => e.name === singleItem.name)) {
-          list.push(singleItem);
-          listExists = true;
-        }
-      }
-      if (!listExists) {
-        splitItems.push([singleItem]);
-      }
-    }
-
-    let sortSplitLists = [];
-
-    for (let spI = 0; spI < splitItems.length; spI++) {
-      // each list of items here.
-
-      for (let i = 0; i < splitItems[spI].length; i++) {
-        // looping through first item here to compare.
-      }
-      sortSplitLists.push();
-
-      sortSplitLists.push(splitItems[spI]);
-    }
-    */
-
-    // To combine items here
-    /*
-    for (let list of splitItems) {
-      for (let i = 0; i < list.length; i++) {
-        for (let y = 0; y < list.length; y++) {
-          if (i == y) {
-            continue;
-          }
-          if (list[i].level == list[y].level && list[i].level != 9) {
-            list[i].level++;
-            list = list.splice(i, 1);
-            i = 0;
-            break;
-          }
-        }
-      }
-      */
-
-    return filteredDupItems;
-  };
-
-  sortItems = (items) => {
-    return items.sort(function (a, b) {
-      return b.level - a.level;
+    this.setState({
+      prettierText: inventoryUser.toString(
+        this.filterList,
+        this.checkBoxPrice,
+        this.basePrice,
+        false,
+        this.checkBoxCombineItems
+      ),
     });
   };
 
