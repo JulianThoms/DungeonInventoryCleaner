@@ -1,4 +1,3 @@
-import logo from './logo.svg'
 import './App.css'
 import Inventory from './inventory/Inventory.jsx'
 import ReactGA from "react-ga4";

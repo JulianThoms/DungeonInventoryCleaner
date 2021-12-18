@@ -1,18 +1,10 @@
-import { Layout, Menu, Breadcrumb } from "antd";
-import {
-  DesktopOutlined,
-  PieChartOutlined,
-  FileOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { Layout } from "antd";
 
 import React from "react";
 
 import Management from "./Management.jsx";
 
-const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
+const {  Content, Footer } = Layout;
 
 export default class Inventory extends React.Component {
   constructor(props) {

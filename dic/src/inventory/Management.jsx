@@ -1,4 +1,4 @@
-import { Input, Row, Col, Divider, Space } from "antd";
+import { Input, Row, Col, Divider } from "antd";
 import React from "react";
 import Checkbox from "./CheckboxCoc.jsx";
 import SearchField from "./SearchFieldCoc.jsx";
