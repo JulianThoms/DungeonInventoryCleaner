@@ -22,14 +22,24 @@ export default class Item {
     return " - " + basePrice + " :coin:";
   }
 
-  CompareTo(obj) {
-    return obj.level - this.level;
+  compareTo(obj) {
+    if (this.strcmp(obj.name, this.name) == 0) {
+      return obj.level - this.level;
+    } else {
+      return this.strcmp(obj.name, this.name);
+    }
   }
+
+  strcmp(a, b) {
+    if (a.toString() < b.toString()) return -1;
+    if (a.toString() > b.toString()) return 1;
+    return 0;
+}
 
   toString = function (addPrice: boolean, basePrice: number) {
     let text = ":" + this.emote + ": " + this.name + this.level;
-    if (addPrice){
-      text += this.GetPrice(basePrice)
+    if (addPrice) {
+      text += this.GetPrice(basePrice);
     }
     if (this.amount > 1) {
       text += " ( " + this.amount + "x )";

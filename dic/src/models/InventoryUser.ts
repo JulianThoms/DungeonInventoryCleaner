@@ -55,34 +55,36 @@ export default class InventoryUser {
     return true;
   }
 
-  sortItems(items: Item[]): Item[] {
+  SortItems(items: Item[]): Item[] {
     return items.sort(function (a, b) {
       return b.level - a.level;
     });
   }
 
-  CheckIfFilter(item: Item, filterList: string[]): boolean {
-    if (filterList != null && filterList.length != 0) {
-      for (let i of filterList) {
-        if (
-          item.name.toLowerCase().includes(i) &&
-          i.length > 2 &&
-          item.name.length > 2
-        ) {
-          return true;
+  CheckIfFilter(filterList: string[]) {
+    this.items = this.items.filter((item) => {
+      if (filterList != null && filterList.length != 0) {
+        for (let i of filterList) {
+          if (
+            item.name.toLowerCase().includes(i) &&
+            i.length > 2 &&
+            item.name.length > 2
+          ) {
+            return false;
+          }
         }
       }
-    }
-    return false;
+      return true;
+    });
   }
 
   // Please don't codereview
-  GroupDupItems(filteredList) {
+  GroupDupItems() {
     // filter duplicates to amounts
     let filteredDupItems = [];
 
-    for (let comparableItem of filteredList) {
-      let amtStuff = filteredList.filter(
+    for (let comparableItem of this.items) {
+      let amtStuff = this.items.filter(
         (item) =>
           item.level == comparableItem.level && item.name == comparableItem.name
       );
@@ -97,7 +99,26 @@ export default class InventoryUser {
         filteredDupItems.push(amtStuff[0]);
       }
     }
-    return filteredDupItems;
+    this.items = filteredDupItems;
+  }
+
+  SortItemGroups() {
+    this.items.sort((a, b) => a.compareTo(b));
+    
+    let copy = [];
+    for (let i = 0; i<this.items.length; i++){
+      if (i == 0 || i == this.items.length-1){
+        copy.push(this.items[i]);
+      }
+      else if (this.items[i].name != this.items[i+1].name){
+        copy.push(this.items[i]);
+        copy.push("")
+      }
+      else{
+        copy.push(this.items[i])
+      }
+    }
+    this.items = copy;
   }
 
   toString = function (
@@ -107,15 +128,17 @@ export default class InventoryUser {
     grpItemGrps: boolean,
     grpDups: boolean
   ): string {
-    let filteredList = this.items.filter(
-      (item) => !this.CheckIfFilter(item, filterList)
-    );
+    this.CheckIfFilter(filterList);
 
     if (grpDups) {
-      filteredList = this.GroupDupItems(filteredList);
+      this.GroupDupItems();
     }
 
-    return filteredList
+    if (grpItemGrps) {
+      this.SortItemGroups();
+    }
+
+    return this.items
       .map((item) => {
         return item.toString(addPrice, basePrice);
       })

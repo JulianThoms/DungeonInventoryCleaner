@@ -12,7 +12,6 @@ export default class Management extends React.Component {
     super(props);
     this.state = {
       prettierText: "",
-      prettierTextCombined: "",
     };
     if (
       localStorage.getItem("filterList") !== "" &&
@@ -23,42 +22,45 @@ export default class Management extends React.Component {
   }
 
   basePrice = 100;
-  normalList = [];
-  prettierList = [];
   addIcons = true;
   checkBoxPrice = false;
   checkBoxCombineItems = false;
-  cleansedListCombined = [];
-  backupList = [];
+  checkBoxSortType = false;
   filterList = [];
+  normalList = [];
 
   onCheckboxPriceAddChange = (e) => {
     this.checkBoxPrice = !this.checkBoxPrice;
-    this.fixText(this.normalList);
+    this.fixText();
   };
 
   onCheckboxCombineItemsChange = (e) => {
     this.checkBoxCombineItems = !this.checkBoxCombineItems;
-    this.fixText(this.normalList);
+    this.fixText();
   };
+
+  onCheckboxSortTypeChange = (e) => {
+    this.checkBoxSortType = !this.checkBoxSortType;
+    this.fixText();
+  }
 
   onChangeInputText = (e) => {
     this.normalList = e.currentTarget.value.split("\n");
-    this.fixText(this.normalList);
+    this.fixText();
   };
 
   onChangeInputPrice = (e) => {
     this.basePrice = e.target.value;
-    this.fixText(this.normalList);
+    this.fixText();
   };
 
   onChangeSearchField = (e) => {
     this.filterList = e;
     localStorage.setItem("filterList", e);
-    this.fixText(this.normalList);
+    this.fixText();
   };
 
-  fixText = (list) => {
+  fixText = () => {
     inventoryUser = new InventoryUser();
 
     if (
@@ -68,7 +70,7 @@ export default class Management extends React.Component {
       this.filterList = localStorage.getItem("filterList").split(",");
     }
 
-    for (let l of list) {
+    for (let l of this.normalList) {
       inventoryUser.ParseItem(l);
     }
 
@@ -77,7 +79,7 @@ export default class Management extends React.Component {
         this.filterList,
         this.checkBoxPrice,
         this.basePrice,
-        false,
+        this.checkBoxSortType,
         this.checkBoxCombineItems
       ),
     });
@@ -107,16 +109,23 @@ export default class Management extends React.Component {
                   onChange={this.onChangeSearchField}
                 />
               </Col>
-              <Col xs={10} s={10} m={10} l={10} xl={10}>
-                <Row justify="center" style={{ marginTop: "15px" }}>
+              <Col xs={10} s={10} m={9} l={9} xl={9} style={{marginLeft:"15px"}}>
+                <Row justify="" style={{ marginTop: "15px" }}>
                   <Checkbox
                     className="noselect"
                     onChange={this.onCheckboxCombineItemsChange}
                     text="Reduce Inventory"
                   />
                 </Row>
+                <Row justify="" style={{ marginTop: "15px" }}>
+                  <Checkbox
+                    className="noselect"
+                    onChange={this.onCheckboxSortTypeChange}
+                    text="Sort for Type"
+                  />
+                </Row>
                 <br />
-                <Row justify="center">
+                <Row justify="">
                   <Checkbox
                     className="noselect"
                     onChange={this.onCheckboxPriceAddChange}
