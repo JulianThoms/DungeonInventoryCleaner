@@ -109,12 +109,16 @@ export default class InventoryUser {
     for (let i = 0; i < this.items.length; i++) {
       if (i == 0 || i == this.items.length - 1) {
         copy.push(this.items[i]);
+        copy.push("");
       } else if (this.items[i].name != this.items[i + 1].name) {
         copy.push(this.items[i]);
         copy.push("");
       } else {
         copy.push(this.items[i]);
       }
+    }
+    if (copy.at(copy.length-1) == "") {
+      copy.splice(copy.length-1, 1)
     }
     this.items = copy;
   }
