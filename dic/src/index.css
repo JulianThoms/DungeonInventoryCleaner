@@ -24,3 +24,11 @@ code {
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
+
+aside {
+  filter: invert(100%);
+  width: 50px !important;
+  min-width: 50px !important;
+  flex: 0 0 50px !important;
+
+}

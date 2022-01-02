@@ -104,21 +104,38 @@ export default class InventoryUser {
 
   SortItemGroups() {
     this.items.sort((a, b) => a.compareTo(b));
-    
+
     let copy = [];
-    for (let i = 0; i<this.items.length; i++){
-      if (i == 0 || i == this.items.length-1){
+    for (let i = 0; i < this.items.length; i++) {
+      if (i == 0 || i == this.items.length - 1) {
         copy.push(this.items[i]);
-      }
-      else if (this.items[i].name != this.items[i+1].name){
+      } else if (this.items[i].name != this.items[i + 1].name) {
         copy.push(this.items[i]);
-        copy.push("")
-      }
-      else{
-        copy.push(this.items[i])
+        copy.push("");
+      } else {
+        copy.push(this.items[i]);
       }
     }
     this.items = copy;
+  }
+
+  CombineUpItems() {
+    let copyOfItems = this.items;
+    for (var item in copyOfItems) {
+      for (var itemCompare in copyOfItems) {
+        if (itemCompare == item) {
+          continue;
+        }
+        if (
+          copyOfItems[item].name == copyOfItems[itemCompare].name &&
+          copyOfItems[item].level == copyOfItems[itemCompare].level
+        ) {
+          copyOfItems[item].level++;
+          copyOfItems.splice(parseInt(itemCompare), 1);
+        }
+      }
+    }
+    this.items = copyOfItems;
   }
 
   toString = function (
@@ -126,9 +143,14 @@ export default class InventoryUser {
     addPrice: boolean,
     basePrice: number,
     grpItemGrps: boolean,
-    grpDups: boolean
+    grpDups: boolean,
+    combineItems: boolean
   ): string {
     this.CheckIfFilter(filterList);
+
+    if (combineItems) {
+      this.CombineUpItems();
+    }
 
     if (grpDups) {
       this.GroupDupItems();

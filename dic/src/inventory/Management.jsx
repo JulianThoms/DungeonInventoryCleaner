@@ -26,6 +26,7 @@ export default class Management extends React.Component {
   checkBoxPrice = false;
   checkBoxCombineItems = false;
   checkBoxSortType = false;
+  checkBoxCombineUp = false;
   filterList = [];
   normalList = [];
 
@@ -34,15 +35,11 @@ export default class Management extends React.Component {
     this.fixText();
   };
 
-  onCheckboxCombineItemsChange = (e) => {
-    this.checkBoxCombineItems = !this.checkBoxCombineItems;
-    this.fixText();
-  };
-
   onCheckboxSortTypeChange = (e) => {
+    console.log(e);
     this.checkBoxSortType = !this.checkBoxSortType;
     this.fixText();
-  }
+  };
 
   onChangeInputText = (e) => {
     this.normalList = e.currentTarget.value.split("\n");
@@ -80,7 +77,8 @@ export default class Management extends React.Component {
         this.checkBoxPrice,
         this.basePrice,
         this.checkBoxSortType,
-        this.checkBoxCombineItems
+        this.checkBoxCombineItems,
+        this.checkBoxCombineUp
       ),
     });
   };
@@ -108,19 +106,42 @@ export default class Management extends React.Component {
                   defaultValue={this.filterList}
                   onChange={this.onChangeSearchField}
                 />
+                <Row justify="center" style={{ marginTop: "15px" }}>
+                  <Checkbox
+                    className="noselect"
+                    onChange={() => {
+                      this.checkBoxCombineUp = !this.checkBoxCombineUp;
+                      this.fixText();
+                    }}
+                    text="Combine up all Items"
+                  />
+                </Row>
               </Col>
-              <Col xs={10} s={10} m={9} l={9} xl={9} style={{marginLeft:"15px"}}>
+              <Col
+                xs={10}
+                s={10}
+                m={9}
+                l={9}
+                xl={9}
+                style={{ marginLeft: "15px" }}
+              >
                 <Row justify="" style={{ marginTop: "15px" }}>
                   <Checkbox
                     className="noselect"
-                    onChange={this.onCheckboxCombineItemsChange}
+                    onChange={() => {
+                      this.checkBoxCombineItems = !this.checkBoxCombineItems;
+                      this.fixText();
+                    }}
                     text="Reduce Inventory"
                   />
                 </Row>
                 <Row justify="" style={{ marginTop: "15px" }}>
                   <Checkbox
                     className="noselect"
-                    onChange={this.onCheckboxSortTypeChange}
+                    onChange={() => {
+                      this.checkBoxSortType = !this.checkBoxSortType;
+                      this.fixText();
+                    }}
                     text="Sort for Type"
                   />
                 </Row>
@@ -128,7 +149,10 @@ export default class Management extends React.Component {
                 <Row justify="">
                   <Checkbox
                     className="noselect"
-                    onChange={this.onCheckboxPriceAddChange}
+                    onChange={() => {
+                      this.checkBoxPrice = !this.checkBoxPrice;
+                      this.fixText();
+                    }}
                     text="Add Price to all Items"
                   />
                   {this.checkBoxPrice && (
