@@ -145,8 +145,7 @@ export default class Management extends React.Component {
                     text="Sort for Type"
                   />
                 </Row>
-                <br />
-                <Row justify="">
+                <Row justify="" style={{ marginTop: "15px" }}>
                   <Checkbox
                     className="noselect"
                     onChange={() => {

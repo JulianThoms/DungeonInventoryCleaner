@@ -128,7 +128,8 @@ export default class InventoryUser {
         }
         if (
           copyOfItems[item].name == copyOfItems[itemCompare].name &&
-          copyOfItems[item].level == copyOfItems[itemCompare].level
+          copyOfItems[item].level == copyOfItems[itemCompare].level &&
+          copyOfItems[itemCompare].level != 9
         ) {
           copyOfItems[item].level++;
           copyOfItems.splice(parseInt(itemCompare), 1);
