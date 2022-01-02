@@ -117,28 +117,33 @@ export default class InventoryUser {
         copy.push(this.items[i]);
       }
     }
-    if (copy.at(copy.length-1) == "") {
-      copy.splice(copy.length-1, 1)
+    if (copy.at(copy.length - 1) == "") {
+      copy.splice(copy.length - 1, 1);
     }
     this.items = copy;
   }
 
   CombineUpItems() {
     let copyOfItems = this.items;
+    let removedItem = false;
     for (var item in copyOfItems) {
-      for (var itemCompare in copyOfItems) {
-        if (itemCompare == item) {
-          continue;
+      do {
+        removedItem = false;
+        for (var itemCompare in copyOfItems) {
+          if (itemCompare == item || removedItem) {
+            continue;
+          }
+          if (
+            copyOfItems[item].name == copyOfItems[itemCompare].name &&
+            copyOfItems[item].level == copyOfItems[itemCompare].level &&
+            copyOfItems[itemCompare].level != 9
+          ) {
+            copyOfItems[item].level++;
+            copyOfItems.splice(parseInt(itemCompare), 1);
+            removedItem = true;
+          }
         }
-        if (
-          copyOfItems[item].name == copyOfItems[itemCompare].name &&
-          copyOfItems[item].level == copyOfItems[itemCompare].level &&
-          copyOfItems[itemCompare].level != 9
-        ) {
-          copyOfItems[item].level++;
-          copyOfItems.splice(parseInt(itemCompare), 1);
-        }
-      }
+      } while (removedItem);
     }
     this.items = copyOfItems;
   }
