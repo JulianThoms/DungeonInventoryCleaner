@@ -14,14 +14,14 @@ function App() {
   const [seeAd, setSeeAd] = useState(
     localStorage.getItem("seeAd") != undefined
       ? localStorage.getItem("seeAd")
-      : true
+      : "true"
   );
   return (
     <div className="App">
       <Modal
         centered
         width={"50%"}
-        visible={seeAd === "true"}
+        visible={seeAd === "true" }
         onOk={() => {
           localStorage.setItem("seeAd", "false");
           setSeeAd(false);
