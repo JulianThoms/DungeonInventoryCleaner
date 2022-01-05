@@ -21,7 +21,7 @@ function App() {
       <Modal
         centered
         width={"50%"}
-        visible={true}
+        visible={seeAd === "true"}
         onOk={() => {
           localStorage.setItem("seeAd", "false");
           setSeeAd(false);
