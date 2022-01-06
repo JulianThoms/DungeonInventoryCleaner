@@ -1,4 +1,4 @@
-import { Input, Row, Col, Divider } from "antd";
+import { Input, Row, Col, Divider, Button } from "antd";
 import React from "react";
 import Checkbox from "./CheckboxCoc.jsx";
 import SearchField from "./SearchFieldCoc.jsx";
@@ -12,6 +12,7 @@ export default class Management extends React.Component {
     super(props);
     this.state = {
       prettierText: "",
+      copySuccess: "Copy"
     };
     if (
       localStorage.getItem("filterList") !== "" &&
@@ -85,6 +86,17 @@ export default class Management extends React.Component {
     });
   };
 
+  updateClipboard(newClip) {
+    navigator.clipboard.writeText(newClip).then(
+      () => {
+        this.setState({copySuccess: "Copied!"});
+      },
+      () => {
+        this.setState({copySuccess: "Copy failed!"});
+      }
+    );
+  }
+
   render() {
     return (
       <>
@@ -101,7 +113,7 @@ export default class Management extends React.Component {
             <Divider className="noselect" orientation="left">
               Options
             </Divider>
-            
+
             <Row justify="center">
               <Col xs={22} s={22} m={14} l={14} xl={14}>
                 <p className="noselect">Remove Items from Output</p>
@@ -109,14 +121,14 @@ export default class Management extends React.Component {
                   defaultValue={this.filterList}
                   onChange={this.onChangeSearchField}
                 />
-                 <Checkbox
-                    className="noselect"
-                    onChange={() => {
-                      this.checkBoxFilterOption = !this.checkBoxFilterOption;
-                      this.fixText();
-                    }}
-                    text="Toggle filter"
-                  />
+                <Checkbox
+                  className="noselect"
+                  onChange={() => {
+                    this.checkBoxFilterOption = !this.checkBoxFilterOption;
+                    this.fixText();
+                  }}
+                  text="Toggle filter"
+                />
                 <Row justify="center" style={{ marginTop: "15px" }}>
                   <Checkbox
                     className="noselect"
@@ -186,6 +198,23 @@ export default class Management extends React.Component {
               value={this.state.prettierText}
               rows={6}
             />
+            <Button
+              style={{ marginTop: "10px" }}
+              onClick={() => {
+                navigator.permissions
+                  .query({ name: "clipboard-write" })
+                  .then((result) => {
+                    if (
+                      result.state === "granted" ||
+                      result.state === "prompt"
+                    ) {
+                      this.updateClipboard(this.state.prettierText);
+                    }
+                  });
+              }}
+            >
+              {this.state.copySuccess}
+            </Button>
           </Col>
         </Row>
       </>
