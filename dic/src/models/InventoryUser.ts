@@ -12,10 +12,11 @@ export default class InventoryUser {
   }
 
   ParseItem(text: string): boolean {
-    if (this.DoCheck(text, /[1-9]{1,2} :([^:]+):\s([^:]+)(\d).*$/)) {
+    if (this.DoCheck(text, /[1-9]{1,2}- :([^:]+):\s([^:]+)(\d).*$/)) {
+      console.log("yes!")
       return true;
     } else {
-      return this.DoCheck(text, /^.*- ([^ ]*) ([^1-9]+ )([1-9])/);
+      return this.DoCheck(text, /^.*- ([^: ]*) ([^1-9]+ )([1-9])/);
     }
   }
 
