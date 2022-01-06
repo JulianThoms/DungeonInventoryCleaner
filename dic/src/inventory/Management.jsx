@@ -27,6 +27,7 @@ export default class Management extends React.Component {
   checkBoxCombineItems = false;
   checkBoxSortType = false;
   checkBoxCombineUp = false;
+  checkBoxFilterOption = false;
   filterList = [];
   normalList = [];
 
@@ -78,7 +79,8 @@ export default class Management extends React.Component {
         this.basePrice,
         this.checkBoxSortType,
         this.checkBoxCombineItems,
-        this.checkBoxCombineUp
+        this.checkBoxCombineUp,
+        this.checkBoxFilterOption
       ),
     });
   };
@@ -99,6 +101,7 @@ export default class Management extends React.Component {
             <Divider className="noselect" orientation="left">
               Options
             </Divider>
+            
             <Row justify="center">
               <Col xs={22} s={22} m={14} l={14} xl={14}>
                 <p className="noselect">Remove Items from Output</p>
@@ -106,6 +109,14 @@ export default class Management extends React.Component {
                   defaultValue={this.filterList}
                   onChange={this.onChangeSearchField}
                 />
+                 <Checkbox
+                    className="noselect"
+                    onChange={() => {
+                      this.checkBoxFilterOption = !this.checkBoxFilterOption;
+                      this.fixText();
+                    }}
+                    text="Toggle filter"
+                  />
                 <Row justify="center" style={{ marginTop: "15px" }}>
                   <Checkbox
                     className="noselect"

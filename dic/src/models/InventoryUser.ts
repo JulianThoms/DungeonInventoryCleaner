@@ -61,7 +61,7 @@ export default class InventoryUser {
     });
   }
 
-  CheckIfFilter(filterList: string[]) {
+  CheckIfFilter(filterList: string[], checkBoxFilterOption) {
     this.items = this.items.filter((item) => {
       if (filterList != null && filterList.length != 0) {
         for (let i of filterList) {
@@ -70,11 +70,19 @@ export default class InventoryUser {
             i.length > 2 &&
             item.name.length > 2
           ) {
-            return false;
+            if (!checkBoxFilterOption) {
+              return false;
+            } else {
+              return true;
+            }
           }
         }
       }
-      return true;
+      if (!checkBoxFilterOption) {
+        return true;
+      } else {
+        return false;
+      }
     });
   }
 
@@ -126,9 +134,9 @@ export default class InventoryUser {
   CombineUpItems() {
     let copyOfItems = this.items;
     let removedItem = false;
-    for (var item in copyOfItems) {
-      do {
-        removedItem = false;
+    do {
+      removedItem = false;
+      for (var item in copyOfItems) {
         for (var itemCompare in copyOfItems) {
           if (itemCompare == item || removedItem) {
             continue;
@@ -143,8 +151,8 @@ export default class InventoryUser {
             removedItem = true;
           }
         }
-      } while (removedItem);
-    }
+      }
+    } while (removedItem);
     this.items = copyOfItems;
   }
 
@@ -154,9 +162,10 @@ export default class InventoryUser {
     basePrice: number,
     grpItemGrps: boolean,
     grpDups: boolean,
-    combineItems: boolean
+    combineItems: boolean,
+    checkBoxFilterOption: boolean
   ): string {
-    this.CheckIfFilter(filterList);
+    this.CheckIfFilter(filterList, checkBoxFilterOption);
 
     if (combineItems) {
       this.CombineUpItems();
