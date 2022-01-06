@@ -20,25 +20,29 @@ function App() {
     <div className="App">
       <Modal
         centered
-        width={"50%"}
-        visible={seeAd === "true" }
+        width={"80%"}
+        visible={seeAd === "true"}
         onOk={() => {
           localStorage.setItem("seeAd", "false");
           setSeeAd(false);
         }}
-        onCancel={() => {alert("hah, you thought I would implement this button? :boxkek:")}}
+        onCancel={() => {
+          localStorage.setItem("seeAd", "false");
+          setSeeAd(false);
+        }}
       >
         <h1>A message from our Sponsor, FQVBSina Lurk</h1>
         <p>
-          <b>Boxbox Discord Feud</b> is looking for <b>5 contestants</b> to form a team and go
-          against Seorin's team in the game show!
+          <b>Boxbox Discord Feud</b> is looking for <b>5 contestants</b> to form
+          a team and go against Seorin's team in the game show!
         </p>
         <p>
           The show is completely similar to Family Feud and the questions are
           from the survey that you might have completed before!
         </p>
         <p>
-          Tag <b>FQVBSina</b> in Discord for more details, if you have questions, etc.
+          Tag <b>FQVBSina</b> in Discord for more details, if you have
+          questions, etc.
         </p>
         <a>
           https://docs.google.com/forms/d/1uAlkovIQo0IOmZO0Hc6zrpeFkfP5s7odUgriO2J8DfY/edit
