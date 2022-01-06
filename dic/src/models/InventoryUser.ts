@@ -12,8 +12,15 @@ export default class InventoryUser {
   }
 
   ParseItem(text: string): boolean {
-    let re = /:([^:]+):\s([^:]+)(\d).*$/;
-    // we need 3 capture grps. First is icon, second is name, third is level
+    if (this.DoCheck(text, /[1-9]{1,2}- :([^:]+):\s([^:]+)(\d).*$/)) {
+      console.log("yes!")
+      return true;
+    } else {
+      return this.DoCheck(text, /^.*- ([^: ]*) ([^1-9]+ )([1-9])/);
+    }
+  }
+
+  DoCheck(text: string, re: RegExp): boolean {
     if (re.test(text)) {
       let matches = text.match(re);
       if (isNaN(parseInt(matches[3].trim()))) {
@@ -23,6 +30,7 @@ export default class InventoryUser {
         this.AddItem(
           new Item(matches[1], matches[2], parseInt(matches[3].trim()))
         );
+        return true;
       } catch (e) {
         return false;
       }
