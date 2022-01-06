@@ -55,6 +55,7 @@ export default class SearchFieldCoc extends React.Component {
         <Option value="thorns">Thorns</Option>
         <Option value="trusty steed">Trusty Steed</Option>
         <Option value="whirlwind axe">Whirlwind Axe</Option>
+        <Option value="punching bag">Punching Bag</Option>
       </Select>
     )
   }
