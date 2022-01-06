@@ -3,6 +3,7 @@ import React from "react";
 import Checkbox from "./CheckboxCoc.jsx";
 import SearchField from "./SearchFieldCoc.jsx";
 import InventoryUser from "../models/InventoryUser";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const { TextArea } = Input;
 let inventoryUser = new InventoryUser();
@@ -12,7 +13,7 @@ export default class Management extends React.Component {
     super(props);
     this.state = {
       prettierText: "",
-      copySuccess: "Copy"
+      copySuccess: "Copy",
     };
     if (
       localStorage.getItem("filterList") !== "" &&
@@ -86,17 +87,6 @@ export default class Management extends React.Component {
     });
   };
 
-  updateClipboard(newClip) {
-    navigator.clipboard.writeText(newClip).then(
-      () => {
-        this.setState({copySuccess: "Copied!"});
-      },
-      () => {
-        this.setState({copySuccess: "Copy failed!"});
-      }
-    );
-  }
-
   render() {
     return (
       <>
@@ -110,7 +100,7 @@ export default class Management extends React.Component {
                 onChange={this.onChangeInputText}
               />
             </Row>
-            <Divider className="noselect" orientation="left">
+            <Divider className="noselect">
               Options
             </Divider>
 
@@ -127,6 +117,7 @@ export default class Management extends React.Component {
                     this.checkBoxFilterOption = !this.checkBoxFilterOption;
                     this.fixText();
                   }}
+                  
                   text="Toggle filter"
                 />
                 <Row justify="center" style={{ marginTop: "15px" }}>
@@ -141,14 +132,10 @@ export default class Management extends React.Component {
                 </Row>
               </Col>
               <Col
-                xs={10}
-                s={10}
-                m={9}
-                l={9}
-                xl={9}
+                xs={24} s={24} m={9} l={9} xl={9}
                 style={{ marginLeft: "15px" }}
               >
-                <Row justify="" style={{ marginTop: "15px" }}>
+                <Row justify="center" style={{ marginTop: "15px" }}>
                   <Checkbox
                     className="noselect"
                     onChange={() => {
@@ -158,7 +145,7 @@ export default class Management extends React.Component {
                     text="Reduce Inventory"
                   />
                 </Row>
-                <Row justify="" style={{ marginTop: "15px" }}>
+                <Row justify="center" style={{ marginTop: "15px" }}>
                   <Checkbox
                     className="noselect"
                     onChange={() => {
@@ -168,7 +155,7 @@ export default class Management extends React.Component {
                     text="Sort for Type"
                   />
                 </Row>
-                <Row justify="" style={{ marginTop: "15px" }}>
+                <Row justify="center" style={{ marginTop: "15px" }}>
                   <Checkbox
                     className="noselect"
                     onChange={() => {
@@ -198,23 +185,16 @@ export default class Management extends React.Component {
               value={this.state.prettierText}
               rows={6}
             />
-            <Button
-              style={{ marginTop: "10px" }}
-              onClick={() => {
-                navigator.permissions
-                  .query({ name: "clipboard-write" })
-                  .then((result) => {
-                    if (
-                      result.state === "granted" ||
-                      result.state === "prompt"
-                    ) {
-                      this.updateClipboard(this.state.prettierText);
-                    }
-                  });
-              }}
-            >
-              {this.state.copySuccess}
-            </Button>
+            <CopyToClipboard text={this.state.prettierText}>
+              <Button
+                style={{ marginTop: "15px" }}
+                onClick={() => {
+                  this.setState({ copySuccess: "Copied!" });
+                }}
+              >
+                {this.state.copySuccess}
+              </Button>
+            </CopyToClipboard>
           </Col>
         </Row>
       </>
