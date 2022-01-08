@@ -175,7 +175,8 @@ export default class InventoryUser {
     grpItemGrps: boolean,
     grpDups: boolean,
     combineItems: boolean,
-    checkBoxFilterOption: boolean
+    checkBoxFilterOption: boolean,
+    makeTwoLines: boolean
   ): string {
     this.CheckIfFilter(filterList, checkBoxFilterOption);
 
@@ -190,9 +191,31 @@ export default class InventoryUser {
     if (grpItemGrps) {
       this.SortItemGroups();
     }
+    
+    let longest = 0;
+    for (let item of this.items) {
+      if (longest < item.getLength()) {
+        longest = item.getLength();
+      }
+    }
 
+    let text = "";
+    let i = 0;
+    console.log(longest);
+    for (let item of this.items) {
+      if (i == 0) {
+        text += item.toString(addPrice, basePrice, longest+20);
+        i++;
+      }
+      else if (i == 1) {
+        text += item.toString(addPrice, basePrice);
+        text += "\n";
+        i = 0;
+      }
+    }
+    return text;
     return this.items
-      .map((item) => {
+      .map((item: Item) => {
         return item.toString(addPrice, basePrice);
       })
       .join("\n");
