@@ -9,6 +9,13 @@ export default class Item {
     this.name = name;
     this.level = level;
     this.amount = 1;
+    if (this.emote === null || this.emote === "" || this.emote === " "){
+      let emoteFix = this.name.replace(/\s+/g, '');
+      if (emoteFix === "BFCannon"){
+        emoteFix = "bfcannon";
+      }
+      this.emote = emoteFix;
+    }
   }
 
   GetPrice(basePrice: number): string {

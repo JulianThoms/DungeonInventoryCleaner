@@ -2,6 +2,7 @@ import { Select } from 'antd'
 import React from 'react'
 const { Option } = Select
 let selectProps = {};
+const AvailItems = [{value: "avalanche", name:" Avalanche"}]
 
 export default class SearchFieldCoc extends React.Component {
   constructor(props) {
