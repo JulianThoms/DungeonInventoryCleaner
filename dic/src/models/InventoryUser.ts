@@ -122,17 +122,28 @@ export default class InventoryUser {
     this.items = filteredDupItems;
   }
 
-  SortItemGroups() {
+  SortItemGroups(addSpace: boolean) {
     this.items.sort((a, b) => a.compareTo(b));
 
     let copy = [];
     for (let i = 0; i < this.items.length; i++) {
       if (i == 0 || i == this.items.length - 1) {
         copy.push(this.items[i]);
-        copy.push("");
+        if (
+          i == 0 &&
+          this.items.length > 1 &&
+          this.items[i].name === this.items[i + 1].name
+        ) {
+        } else {
+          if (addSpace) {
+            copy.push("");
+          }
+        }
       } else if (this.items[i].name != this.items[i + 1].name) {
         copy.push(this.items[i]);
-        copy.push("");
+        if (addSpace) {
+          copy.push("");
+        }
       } else {
         copy.push(this.items[i]);
       }
@@ -176,7 +187,8 @@ export default class InventoryUser {
     grpDups: boolean,
     combineItems: boolean,
     checkBoxFilterOption: boolean,
-    makeTwoLines: boolean
+    makeTwoLines: boolean,
+    addSpace: boolean
   ): string {
     this.CheckIfFilter(filterList, checkBoxFilterOption);
 
@@ -189,7 +201,7 @@ export default class InventoryUser {
     }
 
     if (grpItemGrps) {
-      this.SortItemGroups();
+      this.SortItemGroups(addSpace);
     }
     
     let longest = 0;
