@@ -30,6 +30,7 @@ export default class Management extends React.Component {
   checkBoxSortType = false;
   checkBoxCombineUp = false;
   checkBoxFilterOption = false;
+  checkBoxAddSpace = true;
   filterList = [];
   normalList = [];
 
@@ -39,7 +40,6 @@ export default class Management extends React.Component {
   };
 
   onCheckboxSortTypeChange = (e) => {
-    console.log(e);
     this.checkBoxSortType = !this.checkBoxSortType;
     this.fixText();
   };
@@ -82,7 +82,8 @@ export default class Management extends React.Component {
         this.checkBoxSortType,
         this.checkBoxCombineItems,
         this.checkBoxCombineUp,
-        this.checkBoxFilterOption
+        this.checkBoxFilterOption,
+        this.checkBoxAddSpace
       ),
     });
   };
@@ -100,9 +101,7 @@ export default class Management extends React.Component {
                 onChange={this.onChangeInputText}
               />
             </Row>
-            <Divider className="noselect">
-              Options
-            </Divider>
+            <Divider className="noselect">Options</Divider>
 
             <Row justify="center">
               <Col xs={22} s={22} m={14} l={14} xl={14}>
@@ -117,7 +116,6 @@ export default class Management extends React.Component {
                     this.checkBoxFilterOption = !this.checkBoxFilterOption;
                     this.fixText();
                   }}
-                  
                   text="Toggle filter"
                 />
                 <Row justify="center" style={{ marginTop: "15px" }}>
@@ -132,7 +130,11 @@ export default class Management extends React.Component {
                 </Row>
               </Col>
               <Col
-                xs={24} s={24} m={9} l={9} xl={9}
+                xs={24}
+                s={24}
+                m={9}
+                l={9}
+                xl={9}
                 style={{ marginLeft: "15px" }}
               >
                 <Row justify="center" style={{ marginTop: "15px" }}>
@@ -154,6 +156,16 @@ export default class Management extends React.Component {
                     }}
                     text="Sort for Type"
                   />
+                  {this.checkBoxSortType && (
+                    <Checkbox
+                      className="noselect"
+                      onChange={() => {
+                        this.checkBoxAddSpace = !this.checkBoxAddSpace;
+                        this.fixText();
+                      }}
+                      text="Add Space"
+                    />
+                  )}
                 </Row>
                 <Row justify="center" style={{ marginTop: "15px" }}>
                   <Checkbox

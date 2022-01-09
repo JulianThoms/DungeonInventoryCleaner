@@ -1,28 +1,36 @@
-import { Select } from 'antd'
-import React from 'react'
-const { Option } = Select
+import { Select } from "antd";
+import React from "react";
+const { Option } = Select;
 let selectProps = {};
-const AvailItems = [{value: "avalanche", name:" Avalanche"}]
+const AvailItems = [
+  { value: "avalanche", name: " Avalanche" },
+  { value: "avalanche", name: " Avalanche" },
+  { value: "avalanche", name: " Avalanche" },
+  { value: "avalanche", name: " Avalanche" },
+  {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, {value: "avalanche", name:" Avalanche"}, ];
 
 export default class SearchFieldCoc extends React.Component {
   constructor(props) {
-    super(props)
-    this.state = {}
-    if (localStorage.getItem('filterList') != null && localStorage.getItem('filterList') != ""){
+    super(props);
+    this.state = {};
+    if (
+      localStorage.getItem("filterList") != null &&
+      localStorage.getItem("filterList") != ""
+    ) {
       selectProps = {
-        defaultValue: localStorage.getItem('filterList').split(',')
-      }
+        defaultValue: localStorage.getItem("filterList").split(","),
+      };
     }
   }
 
-  s
+  s;
 
   render() {
     return (
-        <Select
-        {... selectProps}
+      <Select
+        {...selectProps}
         mode="multiple"
-        style={{ width: '95%' }}
+        style={{ width: "95%" }}
         placeholder="Select Items to Remove from List"
         onChange={this.props.onChange}
         optionLabelProp="label"
@@ -58,6 +66,6 @@ export default class SearchFieldCoc extends React.Component {
         <Option value="whirlwind axe">Whirlwind Axe</Option>
         <Option value="punching bag">Punching Bag</Option>
       </Select>
-    )
+    );
   }
 }
