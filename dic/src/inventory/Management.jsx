@@ -14,6 +14,7 @@ export default class Management extends React.Component {
     this.state = {
       prettierText: "",
       copySuccess: "Copy",
+      checkBoxTwoRows: false,
     };
     if (
       localStorage.getItem("filterList") !== "" &&
@@ -60,7 +61,7 @@ export default class Management extends React.Component {
     this.fixText();
   };
 
-  fixText = () => {
+  fixText = (checkBoxTwoRows) => {
     inventoryUser = new InventoryUser();
 
     if (
@@ -83,6 +84,7 @@ export default class Management extends React.Component {
         this.checkBoxCombineItems,
         this.checkBoxCombineUp,
         this.checkBoxFilterOption,
+        checkBoxTwoRows,
         this.checkBoxAddSpace
       ),
     });
@@ -171,20 +173,39 @@ export default class Management extends React.Component {
                   <Checkbox
                     className="noselect"
                     onChange={() => {
-                      this.checkBoxPrice = !this.checkBoxPrice;
-                      this.fixText();
+                      this.checkBoxPrice = false;
+                      this.basePrice = 100;
+                      this.fixText(!this.state.checkBoxTwoRows);
+                      this.setState({
+                        checkBoxTwoRows: !this.state.checkBoxTwoRows,
+                      });
                     }}
-                    text="Add Price to all Items"
+                    text="Two Rows"
                   />
-                  {this.checkBoxPrice && (
+                </Row>
+                {!this.state.checkBoxTwoRows && (
+                  <Row justify="center" style={{ marginTop: "15px" }}>
+                    <Checkbox
+                      className="noselect"
+                      onChange={() => {
+                        this.checkBoxPrice = !this.checkBoxPrice;
+                        this.fixText();
+                      }}
+                      text="Add Price to all Items"
+                    />
+                  </Row>
+                )}
+                {!this.state.checkBoxTwoRows && this.checkBoxPrice && (
+                  <Row justify="center">
                     <Input
                       defaultValue="100"
                       maxLength={4}
-                      style={{ width: "60%", marginTop: "15px" }}
+                      style={{ width: "60px", marginTop: "5px" }}
                       onChange={this.onChangeInputPrice}
                     />
-                  )}
-                </Row>
+                  </Row>
+                )}
+                
               </Col>
             </Row>
           </Col>

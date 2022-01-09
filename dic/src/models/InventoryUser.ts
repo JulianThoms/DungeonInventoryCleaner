@@ -187,7 +187,7 @@ export default class InventoryUser {
     grpDups: boolean,
     combineItems: boolean,
     checkBoxFilterOption: boolean,
-    makeTwoLines: boolean,
+    makeTwoRows: boolean,
     addSpace: boolean
   ): string {
     this.CheckIfFilter(filterList, checkBoxFilterOption);
@@ -203,34 +203,36 @@ export default class InventoryUser {
     if (grpItemGrps) {
       this.SortItemGroups(addSpace);
     }
-    
-    let longest = 0;
-    for (let item of this.items) {
-      if (longest < item.getLength()) {
-        longest = item.getLength();
-      }
-    }
 
-    let text = "";
-    let i = 0;
-    console.log(longest);
-    for (let item of this.items) {
-      if (i == 0) {
-        text += item.toString(addPrice, basePrice, longest+20);
-        i++;
+    if (makeTwoRows) {
+      let longest = 0;
+      for (let item of this.items) {
+        if (longest < item.getLength()) {
+          longest = item.getLength();
+        }
       }
-      else if (i == 1) {
-        text += item.toString(addPrice, basePrice);
-        text += "\n";
-        i = 0;
+
+      let text = "";
+      let i = 0;
+
+      for (let item of this.items) {
+        if (i == 0) {
+          text += item.toString(addPrice, basePrice, longest + 4, true);
+          i++;
+        } else if (i == 1) {
+          text += item.toString(addPrice, basePrice, 0, true);
+          text += "\n";
+          i = 0;
+        }
       }
+      return text;
+    } else {
+      return this.items
+        .map((item: Item) => {
+          return item.toString(addPrice, basePrice);
+        })
+        .join("\n");
     }
-    return text;
-    return this.items
-      .map((item: Item) => {
-        return item.toString(addPrice, basePrice);
-      })
-      .join("\n");
   };
   // return this.prettierList.toString().split(",").join("\n");
 }

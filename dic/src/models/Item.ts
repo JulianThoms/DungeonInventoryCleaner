@@ -1,11 +1,3 @@
-const map = new Map()
-map.set("BF Cannon", 20);
-map.set("Big Club", 15);
-map.set("Boosting Bugle", 27);
-map.set("Challenger Arrow", 32);
-map.set("Cleansing Flame", 32);
-map.set("Draining Dagger", 30);
-
 export default class Item {
   emote: string;
   name: string;
@@ -13,14 +5,14 @@ export default class Item {
   amount: number;
   padding: number;
 
-  constructor(emote, name, level) {
+  constructor(emote: string, name: string, level: number) {
     this.emote = emote;
     this.name = name;
     this.level = level;
     this.amount = 1;
-    if (this.emote === null || this.emote === "" || this.emote === " "){
-      let emoteFix = this.name.replace(/\s+/g, '');
-      if (emoteFix === "BFCannon"){
+    if (this.emote === null || this.emote === "" || this.emote === " ") {
+      let emoteFix = this.name.replace(/\s+/g, "");
+      if (emoteFix === "BFCannon") {
         emoteFix = "bfcannon";
       }
       this.emote = emoteFix;
@@ -39,8 +31,8 @@ export default class Item {
   }
 
   getLength(): number {
-    console.log((this.name + this.level).length);
-    return map.get(this.name);
+    console.log(this.name.length);
+    return this.name.length;
   }
 
   compareTo(obj: Item) {
@@ -60,11 +52,22 @@ export default class Item {
   toString = function (
     addPrice: boolean,
     basePrice: number,
-    padding: number = 0
+    padding: number = 0,
+    makeCode: boolean = false
   ) {
-    let nameStuff = this.name + this.level;
+    let nameStuff = "";
+    if (makeCode) {
+      nameStuff += "`";
+    }
+    nameStuff += this.name + this.level;
+
     nameStuff = nameStuff.padEnd(padding);
+    if (makeCode) {
+      nameStuff += "`";
+    }
     let text = ":" + this.emote + ": " + nameStuff;
+    console.log(text);
+    
     if (addPrice) {
       text += this.getPrice(basePrice);
     }
