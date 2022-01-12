@@ -16,11 +16,25 @@ export default class InventoryUser {
       return true;
     } else if (this.DoCheck(text, /^.*- ([^: ]*) ([^0-9]+ )([0-9])/)) {
       return true;
-    } else {
-      return this.DoCheck(
+    } else if (
+      this.DoCheck(
         text,
         /[*]{2}[0-9]*- __[<]{0,1}:([^:]*):[0-9]*>{0,1} ([^0-9]*)([0-9]).*$/
-      );
+      )
+    ) {
+      return true;
+    } else {
+      try {
+        let matches = text.match(/^([^1-9]*)([1-9])/);
+        if (isNaN(parseInt(matches[2].trim()))) {
+          return false;
+        }
+
+        this.AddItem(new Item(null, matches[1], parseInt(matches[2].trim())));
+        return true;
+      } catch (e) {
+        return false;
+      }
     }
   }
 
