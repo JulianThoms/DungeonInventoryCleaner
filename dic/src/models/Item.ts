@@ -11,6 +11,7 @@ export default class Item {
     this.amount = 1;
     if (this.emote === null || this.emote === "" || this.emote === " "){
       let emoteFix = this.name.replace(/\s+/g, '');
+      emoteFix = emoteFix.replace("'", "");
       if (emoteFix === "BFCannon"){
         emoteFix = "bfcannon";
       }

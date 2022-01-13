@@ -25,8 +25,17 @@ export default class InventoryUser {
       return true;
     } else {
       try {
+        if (text.includes("|") || text.includes("— ")){
+          return false;
+        }
         let matches = text.match(/^([^1-9]*)([1-9])/);
         if (isNaN(parseInt(matches[2].trim()))) {
+          return false;
+        }
+        if (matches[1].length > 24){
+          return false;
+        }
+        if (matches[1].includes("Turns:")){
           return false;
         }
 
