@@ -31,16 +31,13 @@ export default class SearchFieldCoc extends React.Component {
         onChange={this.props.onChange}
         optionLabelProp="label"
       >
-        {
-          (console.log(possibleItems),
-          possibleItems.map((item, key) => {
-            return (
-              <Option value={item.name.toLowerCase()} key={key}>
-                {item.name}
-              </Option>
-            );
-          }))
-        }
+        {possibleItems.map((item, key) => {
+          return (
+            <Option value={item.name.toLowerCase()} key={key}>
+              {item.name}
+            </Option>
+          );
+        })}
       </Select>
     );
   }

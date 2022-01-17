@@ -1,6 +1,5 @@
 import Item from "./Item";
-import possibleItems from './items';
-
+import possibleItems from "./items";
 
 export default class InventoryUser {
   items: Item[];
@@ -43,7 +42,6 @@ export default class InventoryUser {
             )
           );
         } else {
-          console.log(matches);
           return false;
         }
 
@@ -64,7 +62,6 @@ export default class InventoryUser {
         let foundItem = possibleItems.filter(
           (e) => e.name === matches[2].trim()
         );
-        console.log(foundItem);
         if (foundItem.length === 1) {
           this.AddItem(
             new Item(
@@ -251,5 +248,5 @@ export default class InventoryUser {
       })
       .join("\n");
   };
-  // return this.prettierList.toString().split(",").join("\n");
+  // return this.prettierList.toString().split(",").join("\n"); I dont remember what this line is doing here and I am too afraid to delete because it looks complicated and I will never be able to find the braincells to rewrite it
 }
