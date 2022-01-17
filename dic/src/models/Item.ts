@@ -9,6 +9,7 @@ export default class Item {
     this.name = name;
     this.level = level;
     this.amount = 1;
+    // this should now be unnecessary
     if (this.emote === null || this.emote === "" || this.emote === " "){
       let emoteFix = this.name.replace(/\s+/g, '');
       emoteFix = emoteFix.replace("'", "");
@@ -45,7 +46,7 @@ export default class Item {
 }
 
   toString = function (addPrice: boolean, basePrice: number) {
-    let text = ":" + this.emote + ": " + this.name + this.level;
+    let text = ":" + this.emote + ": " + this.name + " " + this.level;
     if (addPrice) {
       text += this.GetPrice(basePrice);
     }

@@ -1,4 +1,6 @@
 import Item from "./Item";
+import possibleItems from './items';
+
 
 export default class InventoryUser {
   items: Item[];
@@ -25,21 +27,26 @@ export default class InventoryUser {
       return true;
     } else {
       try {
-        if (text.includes("|") || text.includes("— ")){
-          return false;
-        }
         let matches = text.match(/^([^1-9]*)([1-9])/);
         if (isNaN(parseInt(matches[2].trim()))) {
           return false;
         }
-        if (matches[1].length > 24){
-          return false;
-        }
-        if (matches[1].includes("Turns:")){
+        let foundItem = possibleItems.filter(
+          (e) => e.name === matches[1].trim()
+        );
+        if (foundItem.length === 1) {
+          this.AddItem(
+            new Item(
+              foundItem[0].icon,
+              foundItem[0].name,
+              parseInt(matches[2].trim())
+            )
+          );
+        } else {
+          console.log(matches);
           return false;
         }
 
-        this.AddItem(new Item(null, matches[1], parseInt(matches[2].trim())));
         return true;
       } catch (e) {
         return false;
@@ -54,9 +61,21 @@ export default class InventoryUser {
         return false;
       }
       try {
-        this.AddItem(
-          new Item(matches[1], matches[2], parseInt(matches[3].trim()))
+        let foundItem = possibleItems.filter(
+          (e) => e.name === matches[2].trim()
         );
+        console.log(foundItem);
+        if (foundItem.length === 1) {
+          this.AddItem(
+            new Item(
+              foundItem[0].icon,
+              foundItem[0].name,
+              parseInt(matches[3].trim())
+            )
+          );
+        } else {
+          return false;
+        }
         return true;
       } catch (e) {
         return false;
