@@ -13,9 +13,9 @@ export default class InventoryUser {
   }
 
   ParseItem(text: string): boolean {
-    if (this.DoCheck(text, /- :([^:]+):\s([^:]+)(\d).*$/)) {
+    if (this.DoCheck(text, /^:([^:]+):\s([^:]+)(\d).*$/)) {
       return true;
-    } else if (this.DoCheck(text, /^.*- ([^: ]*) ([^0-9]+ )([0-9])/)) {
+    } else if (this.DoCheck(text, /^([^: ]*) ([^0-9]+ )([0-9])/)) {
       return true;
     } else if (
       this.DoCheck(
@@ -81,7 +81,7 @@ export default class InventoryUser {
   }
 
   FindItemsOfType(item: Item) {
-    return this.items.filter((a) => a.name == item.name);
+    return this.items.filter((a) => a.name === item.name);
   }
 
   RemoveItems(items: Item[]) {
@@ -97,9 +97,9 @@ export default class InventoryUser {
 
   RemoveItem(item: Item): boolean {
     let index = this.items.findIndex(
-      (a) => a.name == item.name && a.level == item.level
+      (a) => a.name === item.name && a.level === item.level
     );
-    if (index == -1) {
+    if (index === -1) {
       return false;
     }
     this.items.splice(index, 1);
@@ -114,7 +114,7 @@ export default class InventoryUser {
 
   CheckIfFilter(filterList: string[], checkBoxFilterOption) {
     this.items = this.items.filter((item) => {
-      if (filterList != null && filterList.length != 0) {
+      if (filterList !== null && filterList.length !== 0) {
         for (let i of filterList) {
           if (
             item.name.toLowerCase().includes(i) &&
@@ -145,7 +145,7 @@ export default class InventoryUser {
     for (let comparableItem of this.items) {
       let amtStuff = this.items.filter(
         (item) =>
-          item.level == comparableItem.level && item.name == comparableItem.name
+          item.level === comparableItem.level && item.name === comparableItem.name
       );
       if (amtStuff.length > 1) {
         amtStuff[0].amount = amtStuff.length;
@@ -166,10 +166,10 @@ export default class InventoryUser {
 
     let copy = [];
     for (let i = 0; i < this.items.length; i++) {
-      if (i == 0 || i == this.items.length - 1) {
+      if (i === 0 || i === this.items.length - 1) {
         copy.push(this.items[i]);
         if (
-          i == 0 &&
+          i === 0 &&
           this.items.length > 1 &&
           this.items[i].name === this.items[i + 1].name
         ) {
@@ -178,7 +178,7 @@ export default class InventoryUser {
             copy.push("");
           }
         }
-      } else if (this.items[i].name != this.items[i + 1].name) {
+      } else if (this.items[i].name !== this.items[i + 1].name) {
         copy.push(this.items[i]);
         if (addSpace) {
           copy.push("");
@@ -187,7 +187,7 @@ export default class InventoryUser {
         copy.push(this.items[i]);
       }
     }
-    if (copy.at(copy.length - 1) == "") {
+    if (copy.at(copy.length - 1) === "") {
       copy.splice(copy.length - 1, 1);
     }
     this.items = copy;
@@ -200,13 +200,13 @@ export default class InventoryUser {
       removedItem = false;
       for (var item in copyOfItems) {
         for (var itemCompare in copyOfItems) {
-          if (itemCompare == item || removedItem) {
+          if (itemCompare === item || removedItem) {
             continue;
           }
           if (
-            copyOfItems[item].name == copyOfItems[itemCompare].name &&
-            copyOfItems[item].level == copyOfItems[itemCompare].level &&
-            copyOfItems[itemCompare].level != 9
+            copyOfItems[item].name === copyOfItems[itemCompare].name &&
+            copyOfItems[item].level === copyOfItems[itemCompare].level &&
+            copyOfItems[itemCompare].level !== 9
           ) {
             copyOfItems[item].level++;
             copyOfItems.splice(parseInt(itemCompare), 1);

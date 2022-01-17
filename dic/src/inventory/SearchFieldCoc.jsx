@@ -11,7 +11,7 @@ export default class SearchFieldCoc extends React.Component {
     this.state = {};
     if (
       localStorage.getItem("filterList") != null &&
-      localStorage.getItem("filterList") != ""
+      localStorage.getItem("filterList") !== ""
     ) {
       selectProps = {
         defaultValue: localStorage.getItem("filterList").split(","),
