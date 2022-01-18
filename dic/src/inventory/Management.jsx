@@ -99,6 +99,10 @@ export default class Management extends React.Component {
                 rows={6}
                 spellCheck={false}
                 onChange={this.onChangeInputText}
+                placeholder="Try copying your !api, !api s [item], !api e etc!
+                Ignores lines that are not items, so feel free to copy non item parts as well!
+                You can even copy entire pages of different api's from different members to see what you all got using the combine up all items button!
+                Reducing inventory to read (x2) for duplicates etc. with the Reduce Inventory button!"
               />
             </Row>
             <Divider className="noselect">Options</Divider>
